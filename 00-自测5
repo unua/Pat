@@ -1,0 +1,50 @@
+#include<stdio.h>
+
+int shuf[2][55];//牌 
+int order[55];//洗牌次序 
+
+void initcard(){//初试牌序 
+	for(int i=1;i<=54;i++){
+		shuf[0][i]=i;
+		shuf[1][i]=0;
+	}
+}
+
+void printcard(int a){//打印单张牌 
+	switch((a-1)/13){
+		case 0:printf("S");break;
+		case 1:printf("H");break;
+		case 2:printf("C");break;
+		case 3:printf("D");break;
+		case 4:printf("J");break;
+	}
+	printf("%d",(a-1)%13+1);
+}
+
+int main(){
+	int k;
+	while(scanf("%d",&k)!=EOF){
+		initcard();//初试牌序 
+		for(int i=1;i<=54;i++){//输入洗牌序列 
+			scanf("%d",&order[i]);
+		}
+		
+		int p=0;//已经洗好的牌所在的组号 
+		while(k-->0){//洗牌 
+			for(int i=1;i<=54;i++){
+				shuf[1-p][order[i]]=shuf[p][i];
+			}
+			p=1-p;
+		}
+		
+		for(int i=1;i<=54;i++){//打印牌序列 
+			if(i==1)printcard(shuf[p][i]);
+			else{
+				printf(" ");
+				printcard(shuf[p][i]);
+			}
+		}
+		printf("\n");
+	}
+	return 0;
+}
