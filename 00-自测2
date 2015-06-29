@@ -1,0 +1,29 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+bool judge(int k){
+	int bound;
+	bound=(int)sqrt(k)+1;
+	
+	if(k<=1)return false;
+	for(int i=2;i<bound;i++){
+		if(k%i==0)return false;
+	}
+	return true;
+}
+
+int main(){
+	int n;
+	while(scanf("%d",&n)!=EOF){
+		int i,j,count=0;
+		i=2,j=3;
+		for(;j<=n;j++){
+			if(!judge(j))continue;
+			if(j-i==2)count++;
+			i=j;
+		}
+		printf("%d\n",count);
+	}
+	return 0;
+}
