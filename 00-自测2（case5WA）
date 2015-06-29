@@ -1,0 +1,40 @@
+#include<stdio.h>
+#include<math.h>
+#include<stdlib.h>
+
+int prime[10001];//存放素数 
+int size;
+bool mark[10001];//素数筛法辅助数组 
+
+void init(){//筛选素数 
+	for(int i=1;i<=10000;i++){
+		mark[i]=false;
+	}
+
+	size=0;
+	for(int i=2;i<=10000;i++){
+		if(mark[i]==true)continue;
+		prime[size++]=i;
+		for(int j=i*i;j<=10000;j+=i){
+			mark[j]=true;
+		}
+	}
+}
+
+int main(){
+	int n,count;
+	init();
+	while(scanf("%d",&n)!=EOF){
+		count=0;
+		int i=1;
+		while(prime[i]<=n&&i<size){
+			if(prime[i]-prime[i-1]==2){
+				count++;
+			}
+			i++;
+		}
+		printf("%d\n",count);
+	}
+
+	return 0;
+}
