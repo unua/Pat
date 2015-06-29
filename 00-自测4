@@ -1,0 +1,86 @@
+#include<stdio.h>
+#include<string.h>
+
+struct Bigint{
+	int data[25];//初试数字 
+	int size;
+	int count[10];//统计初试数字个数 
+	
+	int data2[25];//存放*2后的结果 
+	int count2[10];//统计*2后的数字个数 
+	
+	void init(){
+		for(int i=0;i<25;i++){
+			data[i]=data2[i]=0;
+		}
+		size=0;
+		for(int i=0;i<10;i++){
+			count[i]=count2[i]=0;
+		}
+	}
+
+	void set(char str[]){//将输入的字符串转换为数字，并按单个数字存入数组中，统计各个数字出现的次数 
+		init();
+		int L=strlen(str);
+		for(int i=L-1,j=0;i>=0;i--,j++){
+			data[j]=str[i]-'0';
+			size++;
+		}
+		
+		for(int i=0;i<size;i++){
+			count[data[i]]++;
+		}
+	}
+	
+	void judg(){//判断是否满足规则 
+		int c=0;
+		for(int i=0;i<size;i++){//*2
+			data2[i]=(data[i]*2+c)%10;
+			c=(data[i]*2+c)/10;
+		}
+		if(c!=0){//最高位有进位，说明*2后结果比原数据多一位，结果NO. 
+			printf("No\n");
+			data2[size++]=c;
+			for(int i=size-1;i>=0;i--){
+				printf("%d",data2[i]);
+			}
+			printf("\n");
+		}
+		
+		else{//最高位无进位：*2后结果与原数据字数相同 
+			for(int i=0;i<size;i++){//统计*2后数字数 
+				count2[data2[i]]++;
+			}
+			bool x=true;
+			for(int i=0;i<10;i++){//判断*2前后数字数是否相等 
+				if(count[i]!=count2[i])x=false;
+			}
+			
+			if(x){
+				printf("Yes\n");
+				for(int i=size-1;i>=0;i--){
+					printf("%d",data2[i]);
+				}
+				printf("\n");
+			}
+			else{
+				printf("No\n");
+				for(int i=size-1;i>=0;i--){
+					printf("%d",data2[i]);
+				}
+				printf("\n");				
+			}
+		}
+	}
+	
+};
+
+int main(){
+	char str[25];
+	while(scanf("%s",str)!=EOF){
+		Bigint a;
+		a.set(str);
+		a.judg();
+	}
+	return 0;
+}
