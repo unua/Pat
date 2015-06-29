@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <math.h>
+
+int list[25];
+void setlist(){
+	for(int i=1;i<=25;i++){
+		list[i]=2*i*i-1;
+	}
+}
+
+int findk(int key){
+	int i=1;
+	while(key>list[i])i++;
+	if(key==list[i])return i;
+	else return i-1;
+}
+
+
+void print(int k,char s){
+	for(int i=k-1;i>=1-k;i--){
+		int abi;
+		abi=abs(i);
+		for(int j=1;j<=k-abi-1;j++)
+			printf(" ");
+		for(int j=1;j<=2*abi+1;j++)
+			printf("%c",s);
+		printf("\n");
+	}
+}
+
+int main()
+{
+	setlist();
+	int n;
+	char s;
+	while(scanf("%d %c",&n,&s)!=EOF){
+		int k;
+		k=findk(n);
+		print(k,s);
+		printf("%d\n",n-list[k]);
+	}
+	return 0;
+}
